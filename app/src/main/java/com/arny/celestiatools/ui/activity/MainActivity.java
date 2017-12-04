@@ -34,13 +34,13 @@ public class MainActivity extends AppCompatActivity {
 		setSupportActionBar(toolbar);
 		initDrawer(savedInstanceState);
 
-		String nasaApiKey = ApiConstants.NASA_API_KEY;
-		Log.i(MainActivity.class.getSimpleName(), "onCreate: nasa api_key = " + nasaApiKey);
-		String hex = CryptoFiles.generateHexKey("com.arny.celestiatools");
-		String encryped = CryptoFiles.encryptString(hex, nasaApiKey);
-		Log.i(MainActivity.class.getSimpleName(), "onCreate: hex = " + hex);
-		Log.i(MainActivity.class.getSimpleName(), "onCreate: nasa encrypted = " + encryped);
-		Log.i(MainActivity.class.getSimpleName(), "onCreate: nasa decrypted = " + CryptoFiles.decryptString(hex,encryped));
+//		String nasaApiKey = ApiConstants.NASA_API_KEY;
+//		Log.i(MainActivity.class.getSimpleName(), "onCreate: nasa api_key = " + nasaApiKey);
+//		String hex = CryptoFiles.generateHexKey("com.arny.celestiatools");
+//		String encryped = CryptoFiles.encryptString(hex, nasaApiKey);
+//		Log.i(MainActivity.class.getSimpleName(), "onCreate: hex = " + hex);
+//		Log.i(MainActivity.class.getSimpleName(), "onCreate: nasa encrypted = " + encryped);
+//		Log.i(MainActivity.class.getSimpleName(), "onCreate: nasa decrypted = " + CryptoFiles.decryptString(hex,encryped));
 	}
 
 	private void initDrawer(Bundle savedInstanceState) {
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 				})
 				.build();
 		if (savedInstanceState == null) {
-			selectItem(MENU_ASTEROIDS);
+			selectItem(MENU_ORBIT_CALC);
 		} else {
 			try {
 				drawer.setSelection(Long.parseLong(savedInstanceState.getString(DRAWER_SELECTION)));

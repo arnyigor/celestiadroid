@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.arny.arnylib.utils.DateTimeUtils;
+import com.arny.arnylib.utils.MathUtils;
 import com.arny.arnylib.utils.Utility;
 import com.arny.celestiatools.R;
 import com.arny.celestiatools.utils.astro.CircularMotion;
@@ -119,21 +120,21 @@ public class OrbitCalcFragment extends Fragment {
         StringBuilder results = new StringBuilder();
         if (Vp <= 0) {
             CircularMotion circularMotion = OrbitCalcMotion.calcCircularOrbit(mass, radius, Hp);
-            results.append("1я космическая:").append(circularMotion.getV1()).append("\n");
-            results.append("2я космическая:").append(circularMotion.getV2()).append("\n");
-            results.append("Ускорение:").append(circularMotion.getUskorenie()).append("\n");
+            results.append("1я космическая:").append(MathUtils.round(circularMotion.getV1(),6)).append("м/с\n");
+            results.append("2я космическая:").append(MathUtils.round(circularMotion.getV2(),6)).append("м/с\n");
+            results.append("Ускорение:").append(MathUtils.round(circularMotion.getUskorenie(),6)).append("м/с\n");
             int hour = circularMotion.getHour();
             int min = circularMotion.getMin();
             int sec = circularMotion.getSec();
             results.append("Период:").append(DateTimeUtils.convertTime(DateTimeUtils.convertTime(hour,min,sec)));
         }else{
             EllipseMotion ellipseMotion = OrbitCalcMotion.calcEllipseOrbit(mass, radius, Hp, Vp);
-            results.append("1я космическая:").append(ellipseMotion.getV1()).append("\n");
-            results.append("2я космическая:").append(ellipseMotion.getV2()).append("\n");
-            results.append("V апогея:").append(ellipseMotion.getVa()).append("\n");
+            results.append("1я космическая:").append(MathUtils.round(ellipseMotion.getV1(),6)).append("м/с\n");
+            results.append("2я космическая:").append(MathUtils.round(ellipseMotion.getV2(),6)).append("м/с\n");
+            results.append("Скорость апогея:").append(MathUtils.round(ellipseMotion.getVa(),6)).append("м/с\n");
             results.append("Эксцентриситет:").append(ellipseMotion.getEcc()).append("\n");
-            results.append("Апогей:").append(ellipseMotion.getHa()).append("\n");
-            results.append("Ускорение:").append(ellipseMotion.getUskorenie()).append("\n");
+            results.append("Апогей:").append(MathUtils.round(ellipseMotion.getHa(),6)).append("\n");
+            results.append("Ускорение:").append(MathUtils.round(ellipseMotion.getUskorenie(),6)).append("м/с2\n");
             int hour = ellipseMotion.getHour();
             int min = ellipseMotion.getMin();
             int sec = ellipseMotion.getSec();
