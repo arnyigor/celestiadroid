@@ -1,15 +1,16 @@
 /**
  * Comet Class
  */
-package com.arny.celestiatools.utils.astro;
+package com.arny.celestiatools.utils.celestia;
 
+import com.arny.celestiatools.utils.astro.AstroConst;
 public class Comet {
 	private String	strName;
 	private double	fT, fE, fQ;
 	private double	fPeri, fNode, fIncl;
 	private double	fEquinox;
 	private ATime	atimeEquinox;
-	private Matrix	mtxVC;		// Vector Constant
+	private Matrix mtxVC;		// Vector Constant
 
 	private static final double TOLERANCE = 1.0e-12;
 	private static final int    MAXAPPROX = 80;
@@ -46,7 +47,7 @@ public class Comet {
 			throw new ArithmeticException();
 		}
 		double fAxis = this.fQ / (1.0 - this.fE);
-		double fM = Astro.GAUSS * (fJd - this.fT) / (Math.sqrt(fAxis) * fAxis);
+		double fM = AstroConst.GAUSS * (fJd - this.fT) / (Math.sqrt(fAxis) * fAxis);
 		double fE1 = fM + this.fE * Math.sin(fM);
 		int nCount = MAXAPPROX;
 		if (this.fE < 0.6) {
@@ -83,7 +84,7 @@ public class Comet {
 		if (this.fQ == 0.0) {
 			throw new ArithmeticException();
 		}
-		double fN = Astro.GAUSS * (fJd - this.fT)
+		double fN = AstroConst.GAUSS * (fJd - this.fT)
 			/ (Math.sqrt(2.0) * this.fQ * Math.sqrt(this.fQ));
 		double fTanV2 = fN;
 		double fOldTanV2, fTan2V2;
@@ -118,7 +119,7 @@ public class Comet {
 		do {
 			fA0 = fA1;
 			fB0 = fB1;
-			fN = fB0 * fA * Astro.GAUSS * (fJd - this.fT)
+			fN = fB0 * fA * AstroConst.GAUSS * (fJd - this.fT)
 				/ (Math.sqrt(2.0) * this.fQ * Math.sqrt(this.fQ));
 			int nCount2 = MAXAPPROX;
 			do {
@@ -159,7 +160,7 @@ public class Comet {
 		}
 		xyz = xyz.Rotate(mtxVC);
 		Matrix mtxPrec = Matrix.PrecMatrix(this.atimeEquinox.getJd(),
-										   Astro.JD2000);
+										   AstroConst.JD2000);
 		return xyz.Rotate(mtxPrec);
 	}
 

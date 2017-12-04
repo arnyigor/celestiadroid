@@ -1,8 +1,6 @@
-/**
- * Astronomical Time Class
- */
-package com.arny.celestiatools.utils.astro;
+package com.arny.celestiatools.utils.celestia;
 import com.arny.arnylib.utils.DateTimeUtils;
+import com.arny.celestiatools.utils.astro.AstroConst;
 import com.arny.celestiatools.utils.astro.AstroUtils;
 
 public class ATime {
@@ -68,7 +66,7 @@ public class ATime {
 	 * Time Parameter Origin of 2000/01/01 12h ET
 	 */
 	private double makeT2() {
-		double ft = (fJd - Astro.JD2000) / 36525.0;
+		double ft = (fJd - AstroConst.JD2000) / 36525.0;
 		return ft;
 	}
 
@@ -131,7 +129,7 @@ public class ATime {
         //
         ATime newDate = new ATime(this.getYear(), this.getMonth(), this.getDay(), 12, 0, 0.0, 0.0);
         double fJd = newDate.getJd();
-//        System.out.println(BaseUtils.getDateTime(AstroUtils.DateFromJD(fJd)));
+//        System.out.println(BaseUtils.getDateTime(AstroConst.tils.DateFromJD(fJd)));
 //        System.out.println(nDay1);
 //        System.out.println(Span.getnDay());
 //        System.out.println(nDay1 + Span.getnDay());
@@ -261,7 +259,7 @@ public class ATime {
 	 * Obliquity of Ecliptic (Static Function)
 	 */
 	static public double getEp(double fJd) {
-		double ft = (fJd - Astro.JD2000) / 36525.0;
+		double ft = (fJd - AstroConst.JD2000) / 36525.0;
 		if (ft > 30.0){		// Out of Calculation Range
 			ft = 30.0;
 		} else if (ft < -30.0){

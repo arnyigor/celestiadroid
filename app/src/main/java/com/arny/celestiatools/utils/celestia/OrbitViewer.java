@@ -1,9 +1,10 @@
-package com.arny.celestiatools.utils.astro;
+package com.arny.celestiatools.utils.celestia;
 
 import android.widget.Button;
 import android.widget.Spinner;
 import com.arny.arnylib.utils.DateTimeUtils;
 import com.arny.celestiatools.models.Asteroid;
+import com.arny.celestiatools.utils.astro.*;
 
 import java.util.ArrayList;
 
@@ -270,7 +271,7 @@ public class OrbitViewer{
             if (q < 1.0e-15) {
                 throw new Error("Too small perihelion distance.");
             }
-            double n = Astro.GAUSS / (a * Math.sqrt(a));
+            double n = AstroConst.GAUSS / (a * Math.sqrt(a));
             if ((strParam = getParameter("M")) == null) {
                 throw new Error("Required parameter 'M' not found.");
             }
@@ -364,7 +365,7 @@ public class OrbitViewer{
         ATime T;
         double M = getCelestiaAsteroid().getM() * Math.PI / 180.0;
         double a = getCelestiaAsteroid().getA();
-        double n = Astro.GAUSS / (a * Math.sqrt(a));
+        double n = AstroConst.GAUSS / (a * Math.sqrt(a));
         if (M < Math.PI) {
             T = new ATime(Epoch.getJd() - M / n, 0.0);
         } else {

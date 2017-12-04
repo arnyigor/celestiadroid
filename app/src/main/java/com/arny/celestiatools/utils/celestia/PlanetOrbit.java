@@ -1,7 +1,7 @@
 /**
  * PlanetOrbit Class
  */
-package com.arny.celestiatools.utils.astro;
+package com.arny.celestiatools.utils.celestia;
 
 public class PlanetOrbit {
 	private int		planetNo;

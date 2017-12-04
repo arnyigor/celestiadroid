@@ -1,10 +1,11 @@
-package com.arny.celestiatools.utils.astro;
+package com.arny.celestiatools.utils.celestia;
 
 import android.app.Activity;
 import android.graphics.*;
 import android.media.Image;
 import com.arny.arnylib.utils.DateTimeUtils;
 import com.arny.arnylib.utils.MathUtils;
+import com.arny.celestiatools.utils.astro.*;
 
 import static com.arny.celestiatools.utils.astro.AstroUtils.DistanceConvert;
 
@@ -144,7 +145,7 @@ class OrbitCanvas extends Canvas {
 	 * Rotation Matrix Equatorial(2000)->Ecliptic(DATE)
 	 */
 	private void updateRotationMatrix(ATime atime) {
-		Matrix mtxPrec = Matrix.PrecMatrix(Astro.JD2000, atime.getJd());
+		Matrix mtxPrec = Matrix.PrecMatrix(AstroConst.JD2000, atime.getJd());
 		Matrix mtxEqt2Ecl = Matrix.RotateX(ATime.getEp(atime.getJd()));
 		this.mtxToEcl = mtxEqt2Ecl.Mul(mtxPrec);
 		this.epochToEcl = atime.getJd();

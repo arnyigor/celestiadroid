@@ -1,7 +1,8 @@
 <resources>
-	<string name="app_name">Celestia Tool</string>
-	<string name="fragment_asteroids">Асторойды</string>
+    <string name="app_name">Celestia Tool</string>
+    <string name="fragment_asteroids">Астороиды</string>
+    <string name="calc_orbit_fragment">Калькулятор орбит</string>
 
-	<!-- TODO: Remove or change this placeholder text -->
-	<string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

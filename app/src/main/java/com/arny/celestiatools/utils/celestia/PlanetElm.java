@@ -1,8 +1,9 @@
 /**
  * PlanetElm Class
  */
-package com.arny.celestiatools.utils.astro;
+package com.arny.celestiatools.utils.celestia;
 
+import com.arny.celestiatools.utils.astro.AstroConst;
 class PlanetElm {
 	double L;		/* M+peri+node */
 	double node;	/* Ascending Node */
@@ -317,7 +318,7 @@ class PlanetElm {
 	 * Get mean orbital elements (Mercury, Venus, Mars, Jupiter, Saturn)
 	 */
 	private void getPlanetElm1(int planetNo, double jd) {
-		double C1 = (jd - Astro.JD1900) / 36525.0;
+		double C1 = (jd - AstroConst.JD1900) / 36525.0;
 		double C2 = C1 * C1;
 		PlanetElmP1 elmCf;
 		switch (planetNo) {
@@ -372,7 +373,7 @@ class PlanetElm {
 	 * Get mean orbital elements (Uranus, Neptune, Pluto)
 	 */
 	private void getPlanetElm2(int planetNo, double jd) {
-		double T1 = ( jd - Astro.JD2000 ) / 36525.0;
+		double T1 = ( jd - AstroConst.JD2000 ) / 36525.0;
 		double T2 = T1 * T1;
 		double d  = T1 * 36525.0;
 		PlanetElmP2 elmCf = null;
@@ -413,7 +414,7 @@ class PlanetElm {
 	 * Get mean orbital elements (Earth)
 	 */
 	private void getPlanetElmEarth(double jd) {
-		double c = (jd - Astro.JD1900)/36525.0;
+		double c = (jd - AstroConst.JD1900)/36525.0;
 		double c2 = c * c;
 		L    = 180.0 + UdMath.degmal(280.6824 + 36000.769325*c
 									 + 7.22222e-4*c2);

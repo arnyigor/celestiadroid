@@ -1,17 +1,17 @@
 package com.arny.celestiatools.ui.activity;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import com.arny.arnylib.security.CryptoFiles;
-import com.arny.arnylib.security.SimpleCrypto;
 import com.arny.celestiatools.R;
 import com.arny.celestiatools.api.ApiConstants;
 import com.arny.celestiatools.ui.fragments.AsteroidsFragment;
+import com.arny.celestiatools.ui.fragments.OrbitCalcFragment;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -20,7 +20,8 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 public class MainActivity extends AppCompatActivity {
 
-	private static final int MENU_ASTEROIDS = 1;
+    private static final int MENU_ORBIT_CALC = 1;
+    private static final int MENU_ASTEROIDS = 2;
 	private static final String DRAWER_SELECTION = "drawer_selection";
 	private Toolbar toolbar;
 	private Drawer drawer;
@@ -66,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
 				.withActionBarDrawerToggle(true)
 				.withActionBarDrawerToggleAnimated(true)
 				.addDrawerItems(
+                        new PrimaryDrawerItem()
+                                .withIdentifier(MENU_ORBIT_CALC)
+                                .withName(R.string.calc_orbit_fragment)
+                                .withIcon(GoogleMaterial.Icon.gmd_3d_rotation),
 						new PrimaryDrawerItem()
 								.withIdentifier(MENU_ASTEROIDS)
 								.withName(R.string.fragment_asteroids)
@@ -92,10 +97,15 @@ public class MainActivity extends AppCompatActivity {
 	private void selectItem(int position) {
 		Fragment fragment = null;
 		switch (position) {
+            case MENU_ORBIT_CALC:
+                fragment = new OrbitCalcFragment();
+                toolbar.setTitle(getString(R.string.calc_orbit_fragment));
+                break;
 			case MENU_ASTEROIDS:
 				fragment = new AsteroidsFragment();
 				toolbar.setTitle(getString(R.string.fragment_asteroids));
 				break;
+
 		}
 		if (fragment != null) {
 			FragmentManager fragmentManager = getSupportFragmentManager();
