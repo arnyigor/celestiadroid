@@ -363,8 +363,8 @@ class OrbitCanvas extends Canvas {
 				updateRotationMatrix(atime);
 			}
 		}
-		Bitmap bitmap = Bitmap.createBitmap((int) activity.getWindowManager()
-				.getDefaultDisplay().getWidth(), (int) activity.getWindowManager()
+		Bitmap bitmap = Bitmap.createBitmap(activity.getWindowManager()
+				.getDefaultDisplay().getWidth(), activity.getWindowManager()
 				.getDefaultDisplay().getHeight(), Bitmap.Config.ARGB_8888);
 		Canvas og = new Canvas(bitmap);
 		// Get Off-Screen Image Graphics Context

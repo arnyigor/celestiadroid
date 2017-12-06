@@ -119,7 +119,7 @@ public class AstroUtils {
             mtmp = month;
         }
         int A = ytmp / 100;
-        int B = 2 - A + (int) (A / 4);
+        int B = 2 - A +  (A / 4);
         int C = (int) (365.25 * ytmp);
         int D = (int) (30.6001 * (mtmp + 1));
         return B + C + D + day + 1720994.5;
