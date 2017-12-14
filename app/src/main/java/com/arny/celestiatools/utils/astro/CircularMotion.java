@@ -1,8 +1,8 @@
 package com.arny.celestiatools.utils.astro;
 
+import com.arny.arnylib.utils.MathUtils;
 public class CircularMotion {
-    private double mass;
-    private double radius;
+    private double ecc;
     private double hp;
     private double uskorenie;
     private double v1;
@@ -10,11 +10,19 @@ public class CircularMotion {
     private int hour;
     private int min;
     private int sec;
+    private double ptime;
 
-    public CircularMotion(double mass, double radius, double Hp) {
-        this.mass = mass;
-        this.radius = radius;
+    CircularMotion(double mass, double radius, double Hp) {
         hp = Hp;
+        uskorenie = (AstroConst.Gconst * mass) / Math.pow((radius + hp), 2);
+        v1 = Math.sqrt((AstroConst.Gconst * mass) / (radius + hp));
+        v2 = Math.sqrt(2) * v1;
+        ecc = 1;
+        ptime = Math.sqrt((4 * Math.pow(Math.PI, 2) * Math.pow((radius + hp), 3)) / (AstroConst.Gconst * mass));
+        ptime = MathUtils.round(ptime, 0);
+        hour = (int) (ptime / 3600);
+        min = (int) ((ptime - hour * 3600) / 60);
+        sec = (int) (ptime - hour * 3600 - min * 60);
     }
 
     public double getUskorenie() {
@@ -41,14 +49,15 @@ public class CircularMotion {
         return sec;
     }
 
-    CircularMotion calc() {
-        uskorenie = (AstroConst.Gconst * mass) / Math.pow((radius + hp), 2);
-        v1 = Math.sqrt((AstroConst.Gconst * mass) / (radius + hp));
-        v2 = Math.sqrt(2) * v1;
-        double Ptime = Math.sqrt((4 * Math.pow(Math.PI, 2) * Math.pow((radius + hp), 3)) / (AstroConst.Gconst * mass)) / 2;
-        hour = (int) (Ptime / 3600);
-        min = (int) ((Ptime - hour * 3600) / 60);
-        sec = (int) (Ptime - hour * 3600 - min * 60);
-        return this;
+    public double getPtime() {
+        return ptime;
+    }
+
+    public double getEcc() {
+        return ecc;
+    }
+
+    public void setEcc(double ecc) {
+        this.ecc = ecc;
     }
 }

@@ -87,7 +87,10 @@ public class MainActivity extends AppCompatActivity {
 			selectItem(MENU_ORBIT_CALC);
 		} else {
 			try {
-				drawer.setSelection(Long.parseLong(savedInstanceState.getString(DRAWER_SELECTION)));
+                String string = savedInstanceState.getString(DRAWER_SELECTION);
+                if (string != null) {
+                    drawer.setSelection(Long.parseLong(string));
+                }
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

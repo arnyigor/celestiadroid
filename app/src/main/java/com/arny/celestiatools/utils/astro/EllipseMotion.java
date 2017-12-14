@@ -1,6 +1,6 @@
 package com.arny.celestiatools.utils.astro;
 
-
+import com.arny.arnylib.utils.MathUtils;
 public class EllipseMotion {
     private double mass;
     private double radius;
@@ -15,13 +15,51 @@ public class EllipseMotion {
     private int hour;
     private int min;
     private int sec;
+    private double ptime;
     private double va;
 
-    public EllipseMotion(double Mass, double Radius, double Hp, double Vp) {
+    EllipseMotion(double Mass, double Radius, double Hp, double Ha, double Vp, double Ecc, double SMA) {
         mass = Mass;
         radius = Radius;
         hp = Hp;
+        ha = Ha;
         vp = Vp;
+        ecc = Ecc;
+        sma = SMA;
+        if (hp == 0 && sma != 0 && ecc != 0) {
+            hp = (sma * (1 - ecc))-radius;
+        }
+        if (ha == 0 && sma != 0 && ecc != 0) {
+            ha = (sma * (1 + ecc))-radius;
+        }
+
+        double peri = radius + hp;
+        double apo = radius + ha;
+        uskorenie = (AstroConst.Gconst * mass) / Math.pow(peri, 2);
+        v1 = Math.sqrt((AstroConst.Gconst * mass) / (peri));
+        v2 = Math.sqrt(2) * v1;
+        if (ha == 0) {
+            ha = (peri) / (((2 * AstroConst.Gconst * mass) / (((peri) * Math.pow(vp, 2))) - 1)) - radius;
+        }
+        if (vp == 0) {
+            vp = Math.sqrt(2 * AstroConst.Gconst * mass * apo / ((peri) * (apo + peri)));
+        }
+        if (ecc == 0) {
+            ecc = (((peri) * Math.pow(vp, 2)) / (AstroConst.Gconst * mass)) - 1;
+        }
+        if (sma == 0) {
+            sma = (hp + ha + (2 * radius)) / 2;
+        }
+        if (apo < 0) {
+            ha = 0;
+            sma = 0;
+        }
+        ptime = Math.sqrt((4 * Math.pow(Math.PI, 2) * Math.pow((sma), 3)) / (AstroConst.Gconst * mass));
+        ptime = MathUtils.round(ptime, 0);
+        hour = (int) (ptime / 3600);
+        min = (int) ((ptime - hour * 3600) / 60);
+        sec = (int) (ptime - hour * 3600 - min * 60);
+        va = Math.sqrt(2 * AstroConst.Gconst * mass * (peri) / (apo * (radius + ha + peri)));
     }
 
     public double getUskorenie() {
@@ -44,6 +82,10 @@ public class EllipseMotion {
         return ha;
     }
 
+    public double getHp() {
+        return hp;
+    }
+
     public double getSma() {
         return sma;
     }
@@ -64,22 +106,11 @@ public class EllipseMotion {
         return va;
     }
 
-    EllipseMotion calc() {
-        uskorenie = (AstroConst.Gconst * mass) / Math.pow((radius + hp), 2);
-        v1 = Math.sqrt((AstroConst.Gconst * mass) / (radius + hp));
-        v2 = Math.sqrt(2) * v1;
-        ecc = (((radius + hp) * Math.pow(vp, 2)) / (AstroConst.Gconst * mass)) - 1;
-        ha = (radius + hp) / (((2 * AstroConst.Gconst * mass) / (((radius + hp) * Math.pow(vp, 2))) - 1)) - radius;
-        sma = (hp + ha + (2 * radius)) / 2;
-        if (radius + ha <0) {
-            ha =0;
-            sma =0;
-        }
-        double Ptime=Math.sqrt((4 * Math.pow(Math.PI, 2)* Math.pow((sma),3))/ (AstroConst.Gconst* mass));
-        hour = (int) (Ptime / 3600);
-        min = (int) ((Ptime - hour * 3600) / 60);
-        sec = (int) (Ptime - hour * 3600 - min * 60);
-        va = Math.sqrt(2 * AstroConst.Gconst * mass * (radius + hp) / ((radius + ha) * ((radius + ha) + (radius + hp))));
-        return this;
+    public double getVp() {
+        return vp;
+    }
+
+    public double getPtime() {
+        return ptime;
     }
 }
