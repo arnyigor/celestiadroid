@@ -1,4 +1,4 @@
-package com.arny.celestiatools.api;
+package com.arny.celestiatools.data.api;
 
 public class ApiConstants {
 	/**

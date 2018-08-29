@@ -6,17 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import com.arny.arnylib.utils.CalculatorDialog
-import com.arny.arnylib.utils.DateTimeUtils
-import com.arny.arnylib.utils.MathUtils
-import com.arny.arnylib.utils.Utility
+import com.arny.arnylib.utils.*
 import com.arny.celestiatools.R
 import com.arny.celestiatools.utils.astro.AstroConst
 import com.arny.celestiatools.utils.astro.OrbitCalc
 import kotlinx.android.synthetic.main.fragment_orbit_calc.*
 
 class OrbitCalcFragment : Fragment() {
-
     private var mass: Double = 0.0
     private var radius: Double = 0.0
     private var Hp: Double = 0.0
@@ -24,6 +20,7 @@ class OrbitCalcFragment : Fragment() {
     private var Vp: Double = 0.0
     private var ecc: Double = 0.0
     private var sma: Double = 0.0
+    private var period: Double = 0.0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_orbit_calc, container, false)
@@ -35,74 +32,90 @@ class OrbitCalcFragment : Fragment() {
     }
 
     private fun initListeners() {
-        edtMass.setOnClickListener({ view ->
-            CalculatorDialog(context, "Масса", edtMass.text.toString()) { result ->
+        edtMass.setOnClickListener { view ->
+            CalculatorDialog(context, "Масса", edtRadius.text.toString()) { result ->
                 edtMass.setText(result)
                 calc()
             }.show()
-        })
-        edtRadius.setOnClickListener({ view ->
+        }
+        edtRadius.setOnClickListener { view ->
             CalculatorDialog(context, "Радиус", edtRadius.text.toString()) { result ->
                 edtRadius.setText(result)
                 calc()
             }.show()
-        })
-        edtHeightPeri.setOnClickListener({ view ->
+        }
+        edtHeightPeri.setOnClickListener { view ->
             CalculatorDialog(context, "Перигей", edtHeightPeri.text.toString()) { result ->
                 edtVelPeri.setText("")
                 edtEcc.setText("")
                 edtSma.setText("")
+                edtPeriod.setText("")
                 edtHeightPeri.setText(result)
                 calc()
             }.show()
-        })
-        edtApoHeight.setOnClickListener({ view ->
+        }
+        edtApoHeight.setOnClickListener { view ->
             CalculatorDialog(context, "Апогей", edtApoHeight.text.toString()) { result ->
                 edtVelPeri.setText("")
                 edtEcc.setText("")
                 edtSma.setText("")
+                edtPeriod.setText("")
                 edtApoHeight.setText(result)
                 calc()
             }.show()
-        })
-        edtVelPeri.setOnClickListener({ view ->
+        }
+        edtVelPeri.setOnClickListener { view ->
             CalculatorDialog(context, "Скорость перигея", edtVelPeri.text.toString()) { result ->
                 edtApoHeight.setText("")
                 edtEcc.setText("")
                 edtSma.setText("")
+                edtPeriod.setText("")
                 edtVelPeri.setText(result)
                 calc()
             }.show()
-        })
-        edtEcc.setOnClickListener({ view ->
+        }
+        edtEcc.setOnClickListener { view ->
             CalculatorDialog(context, "Эксцентриситет", edtEcc.text.toString()) { result ->
                 edtVelPeri.setText("")
                 edtApoHeight.setText("")
                 edtHeightPeri.setText("")
+                edtPeriod.setText("")
                 edtEcc.setText(result)
                 calc()
             }.show()
-        })
-        edtSma.setOnClickListener({ view ->
+        }
+        edtSma.setOnClickListener { view ->
             CalculatorDialog(context, "Большая полуось", edtSma.text.toString()) { result ->
                 edtVelPeri.setText("")
                 edtApoHeight.setText("")
                 edtHeightPeri.setText("")
+                edtPeriod.setText("")
                 edtSma.setText(result)
                 calc()
             }.show()
-        })
-        btnFill.setOnClickListener({ view ->
+        }
+        edtPeriod.setOnClickListener { view ->
+            CalculatorDialog(context, "Период", edtPeriod.text.toString()) { result ->
+                edtVelPeri.setText("")
+                edtApoHeight.setText("")
+                edtHeightPeri.setText("")
+                edtPeriod.setText(result)
+                calc()
+            }.show()
+        }
+        btnFill.setOnClickListener { view ->
             edtMass.setText(AstroConst.Emass.toString())
             edtRadius.setText(AstroConst.R_Earth.toString())
-        })
+        }
     }
+
+
 
     private fun calc() {
         validateVariables()
         val results = StringBuilder()
-        if (Vp > 0 || Ha > 0 || ecc != 0.0 || sma != 0.0) {
-            val ellipseMotion = OrbitCalc.calcEllipseOrbit(mass, radius, Hp, Ha, Vp, ecc, sma)
+        if (Vp > 0 || Ha > 0 || ecc != 0.0 || sma != 0.0 || period != 0.0) {
+            val ellipseMotion = OrbitCalc.calcEllipseOrbit(mass, radius, Hp, Ha, Vp, ecc, sma,period)
             results.append("1я космическая:").append(MathUtils.round(ellipseMotion.v1, 3)).append("(м/с)\n")
             results.append("2я космическая:").append(MathUtils.round(ellipseMotion.v2, 3)).append("(м/с)\n")
             results.append("Скорость апогея:").append(MathUtils.round(ellipseMotion.va, 3)).append("(м/с)\n")
@@ -120,7 +133,8 @@ class OrbitCalcFragment : Fragment() {
             val hour = ellipseMotion.hour
             val min = ellipseMotion.min
             val sec = ellipseMotion.sec
-            results.append("Период:").append(DateTimeUtils.convertTime(DateTimeUtils.convertTime(hour, min, sec))).append(" : ").append(ellipseMotion.ptime.toLong().toString()).append("(сек)")
+            val timeSec = ellipseMotion.ptime.toLong().toString()
+            results.append("Период:").append(DateTimeUtils.convertTime(DateTimeUtils.convertTime(hour, min, sec))).append(" : ").append(timeSec).append("(сек)")
         } else {
             val circularMotion = OrbitCalc.calcCircularOrbit(mass, radius, Hp)
             results.append("1я космическая:").append(MathUtils.round(circularMotion.v1, 3)).append("(м/с)\n")
@@ -153,6 +167,7 @@ class OrbitCalcFragment : Fragment() {
         Vp = validateInputDouble(edtVelPeri)
         ecc = validateInputDouble(edtEcc)
         sma = validateInputDouble(edtSma)
+        period = validateInputDouble(edtPeriod)
     }
 
 }

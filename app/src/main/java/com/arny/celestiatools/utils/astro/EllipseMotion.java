@@ -12,20 +12,26 @@ public class EllipseMotion {
     private double ecc;
     private double ha;
     private double sma;
+    private double geosync;
     private int hour;
     private int min;
     private int sec;
     private double ptime;
     private double va;
 
-    EllipseMotion(double Mass, double Radius, double Hp, double Ha, double Vp, double Ecc, double SMA) {
-        mass = Mass;
-        radius = Radius;
+    EllipseMotion(double mMass, double mRadius, double Hp, double Ha, double Vp, double Ecc, double SMA, double period) {
+        mass = mMass;
+        radius = mRadius;
         hp = Hp;
         ha = Ha;
         vp = Vp;
         ecc = Ecc;
         sma = SMA;
+        if (period != 0) {
+            geosync = Math.pow((Math.pow(period, 2) * AstroConst.Gconst * mass) / (4 * Math.pow(Math.PI, 2)), (double)1 / 3);
+            ha = geosync - radius;
+            hp = geosync - radius;
+        }
         if (hp == 0 && sma != 0 && ecc != 0) {
             hp = (sma * (1 - ecc))-radius;
         }
