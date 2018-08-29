@@ -154,7 +154,7 @@ class OrbitCalcFragment : Fragment() {
         if (Utility.empty(s)) {
             return 0.0
         }
-        s = s!!.trim { it <= ' ' }
+        s = s?.trim { it <= ' ' }
         s = Utility.match(s, "-?\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d+)?", 0)
         return java.lang.Double.parseDouble(s)
     }
