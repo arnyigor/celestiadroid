@@ -2,12 +2,25 @@ package com.arny.celestiatools.utils.astro;
 
 
 import com.arny.arnylib.utils.DateTimeUtils;
+import com.arny.arnylib.utils.MathUtils;
 import com.arny.arnylib.utils.Utility;
 import com.arny.celestiatools.utils.celestia.CoordXYZ;
 
 import java.util.Calendar;
 
-import static com.arny.arnylib.utils.MathUtils.*;
+import static com.arny.arnylib.utils.MathUtils.Acos;
+import static com.arny.arnylib.utils.MathUtils.Asin;
+import static com.arny.arnylib.utils.MathUtils.Atan;
+import static com.arny.arnylib.utils.MathUtils.Atan2;
+import static com.arny.arnylib.utils.MathUtils.Cos;
+import static com.arny.arnylib.utils.MathUtils.Exp;
+import static com.arny.arnylib.utils.MathUtils.Sin;
+import static com.arny.arnylib.utils.MathUtils.Sqrt;
+import static com.arny.arnylib.utils.MathUtils.Tan;
+import static com.arny.arnylib.utils.MathUtils.fracal;
+import static com.arny.arnylib.utils.MathUtils.intact;
+import static com.arny.arnylib.utils.MathUtils.pad;
+import static com.arny.arnylib.utils.MathUtils.round;
 
 /**
  * @author i.sedoy
@@ -18,7 +31,34 @@ public class AstroUtils {
         metre, km, AU, LY, PC
     }
 
-    public static double DistanceConvert(double distance, DistanceTypes input, DistanceTypes output) {
+
+    /**
+     * @param distance in m
+     * @return converted distance
+     */
+    public static String getSmartDistance(double distance) {
+        return getSmartDistance(distance, true);
+    }
+
+    /**
+     * @param distance     in m
+     * @param addDimension
+     * @return converted distance
+     */
+    public static String getSmartDistance(double distance, boolean addDimension) {
+        if (distance < 1e3) {
+            return MathUtils.simpleDoubleFormat(distance) + (addDimension ? "(м)" : "");
+        } else if (distance < AstroConst.AU) {
+            double convert = distanceConvert(distance, DistanceTypes.metre, DistanceTypes.km);
+            return MathUtils.simpleDoubleFormat(MathUtils.round(convert, 3)) + (addDimension ? "км" : "");
+        } else if (distance < AstroConst.LY) {
+            double convert = distanceConvert(distance, DistanceTypes.metre, DistanceTypes.AU);
+            return MathUtils.simpleDoubleFormat(MathUtils.round(convert, 6)) + (addDimension ? "AU" : "");
+        }
+        return MathUtils.simpleDoubleFormat(distance) + (addDimension ? "(м)" : "");
+    }
+
+    public static double distanceConvert(double distance, DistanceTypes input, DistanceTypes output) {
         double res = 0;
         switch (input) {
             case metre:

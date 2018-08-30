@@ -28,9 +28,10 @@ public class EllipseMotion {
         ecc = Ecc;
         sma = SMA;
         if (period != 0) {
-            geosync = Math.pow((Math.pow(period, 2) * AstroConst.Gconst * mass) / (4 * Math.pow(Math.PI, 2)), (double)1 / 3);
-            ha = geosync - radius;
+            geosync = Math.pow((Math.pow(period, 2) * AstroConst.Gconst * mass) / (4 * Math.pow(Math.PI, 2)), (double) 1 / 3);
+            ecc = 1;
             hp = geosync - radius;
+            ha = geosync - radius;
         }
         if (hp == 0 && sma != 0 && ecc != 0) {
             hp = (sma * (1 - ecc))-radius;

@@ -106,12 +106,12 @@ public class OrbitViewer{
 
 
     public void DynamicTimeStep(double edistance) {
-        double stepLessSecDistKm = AstroUtils.DistanceConvert(0.05E6,DistanceTypes.km,DistanceTypes.AU) ;
-        double stepSecDistKm = AstroUtils.DistanceConvert(0.1E6,DistanceTypes.km,DistanceTypes.AU) ;
-        double stepMinDistKm = AstroUtils.DistanceConvert(0.5E6,DistanceTypes.km,DistanceTypes.AU) ;
-        double stepHourDistKm = AstroUtils.DistanceConvert(5E6,DistanceTypes.km,DistanceTypes.AU) ;
-        double stepDayDistKm = AstroUtils.DistanceConvert(50E6,DistanceTypes.km,DistanceTypes.AU) ;
-        double step3DayDistKm = AstroUtils.DistanceConvert(500E6,DistanceTypes.km,DistanceTypes.AU) ;
+        double stepLessSecDistKm = AstroUtils.distanceConvert(0.05E6,DistanceTypes.km,DistanceTypes.AU) ;
+        double stepSecDistKm = AstroUtils.distanceConvert(0.1E6,DistanceTypes.km,DistanceTypes.AU) ;
+        double stepMinDistKm = AstroUtils.distanceConvert(0.5E6,DistanceTypes.km,DistanceTypes.AU) ;
+        double stepHourDistKm = AstroUtils.distanceConvert(5E6,DistanceTypes.km,DistanceTypes.AU) ;
+        double stepDayDistKm = AstroUtils.distanceConvert(50E6,DistanceTypes.km,DistanceTypes.AU) ;
+        double step3DayDistKm = AstroUtils.distanceConvert(500E6,DistanceTypes.km,DistanceTypes.AU) ;
         int step = 3;
         if (edistance>=step3DayDistKm){
             step = 4;
@@ -155,7 +155,7 @@ public class OrbitViewer{
             averDist.remove(0);
             averDist.add(ed);
         }
-//        System.out.println("Tim:d"+timeStep.nDay+" h:"+timeStep.nHour+" m:"+timeStep.nMin+" aver:" + MathUtils.round(AstroUtils.DistanceConvert(average,DistanceTypes.AU,DistanceTypes.km),3));
+//        System.out.println("Tim:d"+timeStep.nDay+" h:"+timeStep.nHour+" m:"+timeStep.nMin+" aver:" + MathUtils.round(AstroUtils.distanceConvert(average,DistanceTypes.AU,DistanceTypes.km),3));
     }
 
     public double getEsDistance(){
@@ -359,12 +359,12 @@ public class OrbitViewer{
 //		} else {
 //			throw new Error("Required parameter 'T' or 'Epoch' not found.");
 //		}
-        String strName = getCelestiaAsteroid().getName();
-
-        ATime Epoch = ymdStringToAtime(String.valueOf(getCelestiaAsteroid().getEpoch()));
+        Asteroid celestiaAsteroid = getCelestiaAsteroid();
+        String strName = celestiaAsteroid.getName();
+        ATime Epoch = ymdStringToAtime(String.valueOf(celestiaAsteroid.getEpoch()));
         ATime T;
-        double M = getCelestiaAsteroid().getM() * Math.PI / 180.0;
-        double a = getCelestiaAsteroid().getA();
+        double M = celestiaAsteroid.getM() * Math.PI / 180.0;
+        double a = celestiaAsteroid.getA();
         double n = AstroConst.GAUSS / (a * Math.sqrt(a));
         if (M < Math.PI) {
             T = new ATime(Epoch.getJd() - M / n, 0.0);
@@ -372,12 +372,12 @@ public class OrbitViewer{
             T = new ATime(Epoch.getJd() + (Math.PI * 2.0 - M) / n, 0.0);
         }
         double fT = T.getJd();
-        double e = getCelestiaAsteroid().getE();
+        double e = celestiaAsteroid.getE();
         double q = a * (1.0 - e);
         return new Comet(strName, fT, e, q,
-                getCelestiaAsteroid().getPeri() * Math.PI / 180.0,
-                getCelestiaAsteroid().getNode() * Math.PI / 180.0,
-                getCelestiaAsteroid().getI() * Math.PI / 180.0,2000.0);
+                celestiaAsteroid.getPeri() * Math.PI / 180.0,
+                celestiaAsteroid.getNode() * Math.PI / 180.0,
+                celestiaAsteroid.getI() * Math.PI / 180.0,2000.0);
 	}
 
 	/**

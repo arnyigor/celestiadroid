@@ -7,7 +7,7 @@ import com.arny.arnylib.utils.DateTimeUtils;
 import com.arny.arnylib.utils.MathUtils;
 import com.arny.celestiatools.utils.astro.*;
 
-import static com.arny.celestiatools.utils.astro.AstroUtils.DistanceConvert;
+import static com.arny.celestiatools.utils.astro.AstroUtils.distanceConvert;
 
 /**
  * Orbit Canvas
@@ -504,8 +504,8 @@ class OrbitCanvas extends Canvas {
 		xdiff = xyz.fX - xyz1.fX;
 		ydiff = xyz.fY - xyz1.fY;
 		zdiff = xyz.fZ - xyz1.fZ;
-		edistance = Math.sqrt((xdiff * xdiff) + (ydiff * ydiff) + (zdiff * zdiff)) - DistanceConvert(AstroConst.R_Earth, AstroUtils.DistanceTypes.metre, AstroUtils.DistanceTypes.AU);
-		strDist = "Earth Distance: " + MathUtils.round(DistanceConvert(edistance, AstroUtils.DistanceTypes.AU, AstroUtils.DistanceTypes.km), 3) + " km, min:" + MathUtils.round(DistanceConvert(minEdist, AstroUtils.DistanceTypes.AU, AstroUtils.DistanceTypes.km), 3) + " date:" + strATime;
+		edistance = Math.sqrt((xdiff * xdiff) + (ydiff * ydiff) + (zdiff * zdiff)) - distanceConvert(AstroConst.R_Earth, AstroUtils.DistanceTypes.metre, AstroUtils.DistanceTypes.AU);
+		strDist = "Earth Distance: " + MathUtils.round(distanceConvert(edistance, AstroUtils.DistanceTypes.AU, AstroUtils.DistanceTypes.km), 3) + " km, min:" + MathUtils.round(distanceConvert(minEdist, AstroUtils.DistanceTypes.AU, AstroUtils.DistanceTypes.km), 3) + " date:" + strATime;
 //		point1.x = fm.charWidth('A');
 //		point1.y = this.sizeCanvas.height - fm.getDescent() - fm.getHeight() - 10;
 //		og.drawString(strDist, point1.x, point1.y);

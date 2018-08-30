@@ -6,9 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import com.arny.arnylib.utils.*
+import com.arny.arnylib.utils.CalculatorDialog
+import com.arny.arnylib.utils.DateTimeUtils
+import com.arny.arnylib.utils.MathUtils
+import com.arny.arnylib.utils.Utility
 import com.arny.celestiatools.R
 import com.arny.celestiatools.utils.astro.AstroConst
+import com.arny.celestiatools.utils.astro.AstroUtils
 import com.arny.celestiatools.utils.astro.OrbitCalc
 import kotlinx.android.synthetic.main.fragment_orbit_calc.*
 
@@ -120,20 +124,22 @@ class OrbitCalcFragment : Fragment() {
             results.append("2я космическая:").append(MathUtils.round(ellipseMotion.v2, 3)).append("(м/с)\n")
             results.append("Скорость апогея:").append(MathUtils.round(ellipseMotion.va, 3)).append("(м/с)\n")
             results.append("Скорость перигея:").append(MathUtils.round(ellipseMotion.vp, 3)).append("(м/с)\n")
-            results.append("Большая полуось:").append(MathUtils.toExpo(ellipseMotion.sma / 1e3, 6)).append("(км)\n")
+            results.append("Большая полуось:").append(AstroUtils.getSmartDistance(ellipseMotion.sma)).append("\n")
             results.append("Эксцентриситет:").append(ellipseMotion.ecc).append("\n")
             edtEcc.setText(ellipseMotion.ecc.toString())
             edtApoHeight.setText(MathUtils.round(ellipseMotion.ha, 3).toString())
             edtHeightPeri.setText(MathUtils.round(ellipseMotion.hp, 3).toString())
             edtVelPeri.setText(MathUtils.round(ellipseMotion.vp, 3).toString())
             edtSma.setText(MathUtils.round(ellipseMotion.sma, 3).toString())
-            results.append("Перигей:").append(MathUtils.toExpo(Hp / 1e3, 6)).append("(км) \n")
-            results.append("Апогей:").append(MathUtils.toExpo(ellipseMotion.ha / 1e3, 6)).append("(км) \n")
-            results.append("Ускорение:").append(MathUtils.round(ellipseMotion.uskorenie, 3)).append("(м/с2)\n")
+            results.append("Перигей:").append(AstroUtils.getSmartDistance(ellipseMotion.hp)).append("\n")
+            results.append("Апогей:").append(AstroUtils.getSmartDistance(ellipseMotion.ha)).append("\n")
+//            results.append("Ускорение:").append(MathUtils.round(ellipseMotion.uskorenie, 3)).append("(м/с2)\n")
             val hour = ellipseMotion.hour
             val min = ellipseMotion.min
             val sec = ellipseMotion.sec
-            val timeSec = ellipseMotion.ptime.toLong().toString()
+            val ptime = ellipseMotion.ptime
+            val timeSec = ptime.toLong().toString()
+            edtPeriod.setText(timeSec)
             results.append("Период:").append(DateTimeUtils.convertTime(DateTimeUtils.convertTime(hour, min, sec))).append(" : ").append(timeSec).append("(сек)")
         } else {
             val circularMotion = OrbitCalc.calcCircularOrbit(mass, radius, Hp)
@@ -144,7 +150,10 @@ class OrbitCalcFragment : Fragment() {
             val hour = circularMotion.hour
             val min = circularMotion.min
             val sec = circularMotion.sec
-            results.append("Период:").append(DateTimeUtils.convertTime(DateTimeUtils.convertTime(hour, min, sec))).append(" : ").append(circularMotion.ptime.toLong().toString()).append("(сек)")
+            val ptime = circularMotion.ptime
+            val timeSec = ptime.toLong().toString()
+            edtPeriod.setText(timeSec)
+            results.append("Период:").append(DateTimeUtils.convertTime(DateTimeUtils.convertTime(hour, min, sec))).append(" : ").append(timeSec).append("(сек)")
         }
         tvResult.text = results.toString()
     }
