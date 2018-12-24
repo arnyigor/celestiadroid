@@ -2,7 +2,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context="com.arny.celestiatools.ui.fragments.AsteroidsFragment">
+                tools:context="com.arny.celestiatools.presenter.asteroids.AsteroidsFragment">
 	<android.support.v7.widget.RecyclerView
 			android:id="@+id/rv_asteroids_list"
 			android:layout_width="match_parent"
