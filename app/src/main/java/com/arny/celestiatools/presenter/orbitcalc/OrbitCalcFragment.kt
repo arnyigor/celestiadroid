@@ -1,24 +1,31 @@
 package com.arny.celestiatools.presenter.orbitcalc
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import com.arny.celestiatools.R
+import com.arny.celestiatools.data.spaceutils.astro.AstroUtils
+import com.arny.celestiatools.data.spaceutils.astro.OrbitCalc
 import com.arny.celestiatools.data.utils.DateTimeUtils
 import com.arny.celestiatools.data.utils.MathUtils
 import com.arny.celestiatools.data.utils.Utility
-import com.arny.celestiatools.R
-import com.arny.celestiatools.data.spaceutils.astro.AstroConst
-import com.arny.celestiatools.data.spaceutils.astro.AstroUtils
-import com.arny.celestiatools.data.spaceutils.astro.OrbitCalc
 import com.arny.celestiatools.data.utils.calculator.CalculatorDialog
+import com.arny.celestiatools.data.utils.getExtra
+import com.arny.celestiatools.presenter.main.MainActivity
+import com.arny.celestiatools.presenter.planets.PlanetsFragment
 import kotlinx.android.synthetic.main.fragment_orbit_calc.*
 
 class OrbitCalcFragment : Fragment() {
     private var mass: Double = 0.0
     private var radius: Double = 0.0
+    private var resultMass: Double? = null
+    private var resultRadius: Double? = null
     private var Hp: Double = 0.0
     private var Ha: Double = 0.0
     private var Vp: Double = 0.0
@@ -33,6 +40,17 @@ class OrbitCalcFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
+        activity?.title = "Калькулятор орбит"
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (resultMass != null) {
+            edtMass.setText(resultMass.toString())
+        }
+        if (resultRadius != null) {
+            edtRadius.setText(resultRadius.toString())
+        }
     }
 
     private fun initListeners() {
@@ -107,13 +125,25 @@ class OrbitCalcFragment : Fragment() {
                 calc()
             }.show()
         }
-        btnFill.setOnClickListener { view ->
-            edtMass.setText(AstroConst.Emass.toString())
-            edtRadius.setText(AstroConst.R_Earth.toString())
+        btn_request_planet.setOnClickListener { view ->
+            val activity = activity
+            if (activity is MainActivity) {
+                activity.startFragmentWithTargetFragment(this, PlanetsFragment.newInstance(), 101)
+            }
         }
     }
 
-
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.i(OrbitCalcFragment::class.java.simpleName, "onActivityResult: requestCode:$requestCode,resultCode:$resultCode,data:" + Utility.dumpIntent(data))
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                101 -> {
+                    resultMass = data?.getExtra<Double>("mass")
+                    resultRadius = data?.getExtra<Double>("radius")
+                }
+            }
+        }
+    }
 
     private fun calc() {
         validateVariables()

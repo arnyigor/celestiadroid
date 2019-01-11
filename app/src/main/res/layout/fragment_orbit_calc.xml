@@ -21,13 +21,13 @@
             android:paddingBottom="8dp">
 
             <Button
-                android:id="@+id/btnFill"
+                android:id="@+id/btn_request_planet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="Fill"
+                android:text="Выбрать из списка"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -36,12 +36,12 @@
                 android:id="@+id/tilMass"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toStartOf="@+id/tilRadius"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnFill">
+                app:layout_constraintTop_toBottomOf="@+id/btn_request_planet">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/edtMass"
@@ -70,7 +70,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/tilMass"
-                app:layout_constraintTop_toBottomOf="@+id/btnFill">
+                app:layout_constraintTop_toBottomOf="@+id/btn_request_planet">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/edtRadius"

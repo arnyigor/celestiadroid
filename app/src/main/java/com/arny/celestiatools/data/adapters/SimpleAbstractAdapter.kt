@@ -1,4 +1,4 @@
-package com.arny.sentry.data.adapters;
+package com.arny.celestiatools.data.adapters;
 
 import android.support.annotation.LayoutRes
 import android.support.v7.util.DiffUtil
