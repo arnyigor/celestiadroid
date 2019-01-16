@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
@@ -23,16 +24,47 @@
             android:hint="Name" />
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/tiedt_planet_mass"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Mass" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_weight="1">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/tiedt_planet_mass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Mass"
+                android:inputType="numberDecimal" />
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/btn_10x"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textAlignment="center"
+            android:padding="8dp"
+            android:text="EXP"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/edt_planet_mass_exp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:inputType="numberSigned"
+            android:minWidth="50dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp" />
+
+    </LinearLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -44,7 +76,7 @@
             android:layout_height="wrap_content"
             android:digits="1234567890e."
             android:hint="Radius"
-            android:inputType="text|numberSigned" />
+            android:inputType="numberSigned" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
